@@ -44,7 +44,6 @@ export interface CallsShortCredentials {
   link_with_password: string;
 }
 
-
 export class VKApiService {
   constructor(private accessToken: string) {}
 
