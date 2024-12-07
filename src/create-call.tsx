@@ -1,7 +1,7 @@
 import { Clipboard, LaunchProps, LocalStorage, showHUD, showToast } from "@raycast/api";
 import { authorize, client, createTokens, refreshTokens } from "./vk-oauth";
 import { VKApiService } from "./services/vk-api";
-import { isVKError } from "./services/errors";
+import { VKApiError } from "./services/errors";
 
 export default async function Command(
   props: LaunchProps<{
@@ -52,10 +52,11 @@ async function createCallWithRetry(vkApi: VKApiService, userId: string, title: s
     await Clipboard.copy(data.response.join_link);
     await showHUD("Ссылка на звонок скопирована в буфер обмена");
   } catch (error) {
-    if (isVKError(error)) {
-      if (error.error.error_msg.includes("access_token has expired.")) {
+    if (error instanceof VKApiError) {
+      if (error.error_msg.includes("access_token has expired.")) {
+        console.log("access_token has expired.");
         await handleExpiredToken(userId, title);
-      } else if (error.error.error_code === 5) {
+      } else if (error.error_code === 5) {
         showToast({ title: "Требуется повторная авторизация" });
         await authorize({ title });
       } else {
