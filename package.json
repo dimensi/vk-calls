@@ -11,13 +11,6 @@
   "license": "MIT",
   "commands": [
     {
-      "name": "auth",
-      "title": "Авторизоваться",
-      "subtitle": "Авторизовываемся по OAuth в vk.com",
-      "description": "Авторизуемся по OAuth в vk.com",
-      "mode": "no-view"
-    },
-    {
       "name": "create-call",
       "title": "Создать Звонок",
       "description": "Создаем звонок в vk calls",
